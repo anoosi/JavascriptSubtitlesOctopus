@@ -1,20 +1,43 @@
 sudo: required
 dist: trusty
-language: node_js
-before_install:
-- wget https://raw.githubusercontent.com/alpinelinux/alpine-chroot-install/master/alpine-chroot-install
-install:
-- sudo sh alpine-chroot-install -b v3.7 -r 'https://nl.alpinelinux.org/alpine/edge/testing'
-  -p 'cmake nodejs ragel wget closure-compiler musl python2 glib zip busybox make enca-dev pkgconf python2-dev gperf build-base autoconf automake libtool glib-dev intltool git patch tar alpine-sdk m4 autoconf2.13 autoconf-archive llvm5 clang clang-libs itstool'
-  -k 'CI TRAVIS_.* EM_.*'
+env:
+  - ARCH_TRAVIS_CLEAN_CHROOT=1 ARCH_TRAVIS_CONFIRM_YES=1
+language: nodejs
+arch:
+  repos:
+    - archlinuxfr=http://repo.archlinux.fr/$arch
+  packages:
+    - emscripten
+    - llvm
+    - clang
+    - cmake
+    - nodejs
+    - npm
+    - ragel
+    - wget
+    - zip
+    - make
+    - autoconf
+    - pkgconfig
+    - patch
+    - libtool
+    - itstool
+    - automake
+    - python2
+    - zip
+    - python2-lxml
+    - python2-pip
+    - python2-html5lib
+    - python2-setuptools
+    - python2-chardet
+    - python2-virtualenv
+    - binaryen
+  script:
+    - source /etc/profile.d/emscripten.sh && emcc -v && make
+
 script:
-- /alpine/enter-chroot -u root patch -p1 -d /usr/bin < build/gettextize-Fix-CI-Builds.patch
-- /alpine/enter-chroot -u $USER wget https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz
-- /alpine/enter-chroot -u $USER tar -zxvf ./emsdk-portable.tar.gz
-- /alpine/enter-chroot -u $USER ./emsdk-portable/emsdk update
-- /alpine/enter-chroot -u $USER ./emsdk-portable/emsdk install latest
-- /alpine/enter-chroot -u $USER sh ./ci-starter.sh
-- /alpine/enter-chroot -u $USER zip -r SubtitleOctopus-v$(git rev-parse --short HEAD).zip js
+ - bash ./ci-starter.sh
+ - zip -r SubtitleOctopus-v$(git rev-parse --short HEAD).zip js
 deploy:
   provider: releases
   api_key:
