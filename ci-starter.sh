@@ -46,7 +46,7 @@ export EDITOR=false
 
 
 # default packages
-default_packages=("base" "base-devel" "git")
+default_packages=("base-devel" "git" "glibc" "glib2")
 
 # pacman.conf repository line
 repo_line=70
@@ -55,7 +55,7 @@ repo_line=70
 # month, falling back to the last month if needed.
 get_base_archive() {
   local months=(
-    # $(date +%Y.%m)
+    $(date +%Y.%m)
     $(date +%Y.%m -d "-1 month")
   )
 
@@ -224,7 +224,7 @@ _chroot_as_normal() {
   local cmd="$@"
   sudo_wrapper setarch $ARCH_TRAVIS_ARCH chroot \
     --userspec=$uid:$uid $ARCH_TRAVIS_CHROOT /bin/bash \
-    -c "export PATH=$PATH && cd $user_build_dir && source /etc/profile.d/emscripten.sh && emcc -v && $cmd "
+    -c "export PATH=$PATH && cd $user_build_dir && $cmd "
 }
 
 # run command in chroot as normal user
@@ -248,7 +248,7 @@ run() {
 run_build_script() {
   local cmd="$@"
   echo "$ $cmd"
-  _chroot_as_normal "$cmd"
+  _chroot_as_normal "source /etc/profile.d/emscripten.sh && emcc -v && alias python=/usr/bin/python2 && $cmd"
   local ret=$?
 
   if [ $ret -gt 0 ]; then
