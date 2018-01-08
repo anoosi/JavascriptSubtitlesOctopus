@@ -31,9 +31,10 @@ arch:
     - python2-setuptools
     - python2-chardet
     - python2-virtualenv
+	- jdk8-openjdk
     - binaryen
   script:
-    - source /etc/profile.d/emscripten.sh && emcc -v && make
+    - make
 
 script:
  - bash ./ci-starter.sh
