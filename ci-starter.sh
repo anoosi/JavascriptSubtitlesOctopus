@@ -46,7 +46,7 @@ export EDITOR=false
 
 
 # default packages
-default_packages=("base-devel" "git" "glibc" "glib2")
+default_packages=("base" "base-devel" "git")
 
 # pacman.conf repository line
 repo_line=70
