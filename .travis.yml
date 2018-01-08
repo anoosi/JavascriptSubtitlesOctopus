@@ -31,7 +31,7 @@ arch:
     - python2-setuptools
     - python2-chardet
     - python2-virtualenv
-	- jdk8-openjdk
+    - jdk8-openjdk
     - binaryen
   script:
     - make
