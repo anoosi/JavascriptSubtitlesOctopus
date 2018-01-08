@@ -32,6 +32,7 @@ arch:
     - python2-chardet
     - python2-virtualenv
     - jdk8-openjdk
+    - gperf
     - binaryen
   script:
     - make
