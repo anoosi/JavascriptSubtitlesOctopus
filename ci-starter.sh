@@ -219,6 +219,13 @@ chroot_as_root() {
     $ARCH_TRAVIS_CHROOT /bin/bash -c "$cmd"
 }
 
+# run command in chroot as root
+_chroot_as_root() {
+  local cmd="$@"
+  run sudo_wrapper setarch $ARCH_TRAVIS_ARCH chroot \
+    $ARCH_TRAVIS_CHROOT /bin/bash -c "export PATH=$PATH && cd $user_build_dir && $cmd"
+}
+
 # execute command in chroot as normal user
 _chroot_as_normal() {
   local cmd="$@"
@@ -248,7 +255,7 @@ run() {
 run_build_script() {
   local cmd="$@"
   echo "$ $cmd"
-  _chroot_as_normal "source /etc/profile.d/emscripten.sh && emcc -v && alias python=/usr/bin/python2 && $cmd"
+  _chroot_as_root "source /etc/profile.d/emscripten.sh && emcc -v && alias python=/usr/bin/python2 && $cmd"
   local ret=$?
 
   if [ $ret -gt 0 ]; then
