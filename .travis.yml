@@ -40,7 +40,7 @@ script:
  - bash ./ci-starter.sh
  - zip -r SubtitleOctopus-v$(git rev-parse --short HEAD).zip js
 after_failure: 
-	- cat ./build/fribidi/config.log
+   - cat ./build/fribidi/config.log
 deploy:
   provider: releases
   api_key:
