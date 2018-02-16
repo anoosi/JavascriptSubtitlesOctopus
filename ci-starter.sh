@@ -71,8 +71,10 @@ get_base_archive() {
           iso_date="$date.$i"
         fi
 
-        ARCH_TRAVIS_ROOT_ARCHIVE="archlinux-bootstrap-${iso_date}-${ARCH_TRAVIS_ARCH}.tar.gz"
-        local url="$mirror/iso/$iso_date/$ARCH_TRAVIS_ROOT_ARCHIVE"
+        #ARCH_TRAVIS_ROOT_ARCHIVE="archlinux-bootstrap-${iso_date}-${ARCH_TRAVIS_ARCH}.tar.gz"
+        ARCH_TRAVIS_ROOT_ARCHIVE="ArchChroot.tar.gz"
+        #local url="$mirror/iso/$iso_date/$ARCH_TRAVIS_ROOT_ARCHIVE"
+        local url="https://github.com/TFSThiagoBR98/arch-travis/releases/download/0.1.1/ArchChroot.tar.gz"
 
         if [ -f "$ARCH_TRAVIS_ROOT_ARCHIVE" ]; then
             return
