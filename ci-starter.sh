@@ -81,7 +81,7 @@ get_base_archive() {
         fi
 
         echo $url
-        curl --fail -O $url 2>&1
+        curl --fail -O -L $url 2>&1
         local ret=$?
 
         if [ $ret -eq 0 ]; then
